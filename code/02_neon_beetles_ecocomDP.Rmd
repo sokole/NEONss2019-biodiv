@@ -15,7 +15,7 @@ library(taxadb)
 ```
 
 ```{r}
-load("data/beetles_counts.rda")
+readRDS("data/beetles_counts.rds")
 ```
 
 #Observation Table
@@ -25,6 +25,13 @@ All individuals of the same species collected at the same time/same location are
 *package_id
 ```{r}
 observation <- beetles_counts %>%
+<<<<<<< HEAD
+=======
+  #get sampleID (which is really the event_id) from an original table
+  left_join(beetles_raw$bet_fielddata %>%
+              select(sampleID, plotID, trapID, collectDate) %>% 
+              distinct()) %>%
+>>>>>>> 4a0949adac3ef33e9da65da2e92abc53990f74ab
   unite(location_id, plotID, trapID) %>%
   rename(abundance = count) %>%
   pivot_longer(c(abundance, trappingDays), names_to = "variable_name", values_to = "value") %>%
@@ -52,7 +59,8 @@ location <- beetles_raw$bet_fielddata %>%
   select(location_id, 
          latitude = decimalLatitude, 
          longitude = decimalLongitude,
-         elevation)
+         elevation) %>% 
+  distinct()
 ```
 
 #Taxon Table
